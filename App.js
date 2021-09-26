@@ -1,23 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { createStore,combineReducers } from 'redux';
-import { Provider } from 'react-redux'
-
-import productsReducer from './store/reducers/product'
-import ShopNavigation from './navigation/ShopNavigation';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+import productsReducer from "./store/reducers/product";
+import ShopNavigation from "./navigation/ShopNavigation";
 
 const rootReducer = combineReducers({
-  products : productsReducer,
-})
+  products: productsReducer,
+});
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer);
 
 export default function App() {
-  return (
-    <Provider store={store}>
-      <StatusBar hidden />
-     <ShopNavigation />
-    </Provider>
-  );
+  const [loaded] = useFonts({
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "opan-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+  });
+  if (!loaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <Provider store={store}>
+        <StatusBar hidden />
+        <ShopNavigation />
+      </Provider>
+    );
+  }
 }
-

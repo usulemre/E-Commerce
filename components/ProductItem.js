@@ -65,10 +65,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Title: {
+    fontFamily:'opan-sans-bold',
     fontSize: 18,
     marginVertical: 3,
   },
   price: {
+    fontFamily:'open-sans',
     fontSize: 16,
     marginVertical: 3,
     color: "#888",
