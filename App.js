@@ -6,12 +6,14 @@ import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import productsReducer from "./store/reducers/product";
 import ShopNavigation from "./navigation/ShopNavigation";
-
+import { composeWithDevTools } from "redux-devtools-extension";
+import cartReducer from './store/reducers/cart'
 const rootReducer = combineReducers({
   products: productsReducer,
+  cart : cartReducer
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeWithDevTools());
 
 export default function App() {
   const [loaded] = useFonts({

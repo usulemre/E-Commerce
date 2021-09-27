@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Color from "../constants/Color";
+
 const ProductItem = (props) => {
   return (
     <TouchableOpacity onPress={props.onViewDetail} activeOpacity={0.8}>
