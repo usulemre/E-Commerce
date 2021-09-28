@@ -5,7 +5,7 @@ import {
   Button,
   Image,
   StyleSheet,
-  ScrollView,
+  ScrollView, 
 } from "react-native";
 import { useSelector,useDispatch } from "react-redux";
 import Color from "../../constants/Color.js";
