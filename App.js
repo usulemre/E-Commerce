@@ -8,9 +8,11 @@ import productsReducer from "./store/reducers/product";
 import ShopNavigation from "./navigation/ShopNavigation";
 import { composeWithDevTools } from "redux-devtools-extension";
 import cartReducer from './store/reducers/cart'
+import orderReducer from './store/reducers/order';
 const rootReducer = combineReducers({
   products: productsReducer,
-  cart : cartReducer
+  cart : cartReducer,
+  order:orderReducer
 });
 
 const store = createStore(rootReducer, composeWithDevTools());
