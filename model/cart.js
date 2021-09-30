@@ -1,5 +1,5 @@
 class Cart {
-    constructor(quantity,price,title,sum,img){
+    constructor(quantity,price,title,sum){
       this.quantity = quantity,
       this.price = price,
       this.title = title,
