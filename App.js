@@ -4,9 +4,9 @@ import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
-import productsReducer from "./store/reducers/product";
 import ShopNavigation from "./navigation/ShopNavigation";
 import { composeWithDevTools } from "redux-devtools-extension";
+import productsReducer from "./store/reducers/product";
 import cartReducer from './store/reducers/cart'
 import orderReducer from './store/reducers/order';
 const rootReducer = combineReducers({

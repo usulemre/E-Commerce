@@ -45,6 +45,7 @@ const CartScreen = (props) => {
             quantity={itemData.item.quantity}
             price={itemData.item.productPrice}
             sum={itemData.item.sum}
+            delete
             onDelete={() => {
               distpach(cart.removeCart(itemData.item.productId));
             }}
