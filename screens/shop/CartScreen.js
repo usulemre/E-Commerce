@@ -1,86 +1,95 @@
-import React from "react";
-import { View, Text, Button, FlatList, StyleSheet } from "react-native";
-import { useSelector,useDispatch } from "react-redux";
-import Color from "../../constants/Color";
-import CartItem from "../../components/CartItem";
-import * as cart from '../../store/actions/cart';
-import * as order from '../../store/actions/order';
-const CartScreen = (props) => {
-  const cartTotal = useSelector((state) => state.cart.totalAmount);
-  const cartItem = useSelector((state) => {
-    const transformedCart = [];
+import React from 'react';
+import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+
+import Colors from '../../constants/Colors';
+import CartItem from '../../components/shop/CartItem';
+import * as cartActions from '../../store/actions/cart';
+import * as ordersActions from '../../store/actions/orders';
+
+const CartScreen = props => {
+  const cartTotalAmount = useSelector(state => state.cart.totalAmount);
+  const cartItems = useSelector(state => {
+    const transformedCartItems = [];
     for (const key in state.cart.items) {
-      transformedCart.push({
+      transformedCartItems.push({
         productId: key,
-        productTitle: state.cart.items[key].title,
-        productPrice: state.cart.items[key].price,
+        productTitle: state.cart.items[key].productTitle,
+        productPrice: state.cart.items[key].productPrice,
         quantity: state.cart.items[key].quantity,
-        sum: state.cart.items[key].sum,
+        sum: state.cart.items[key].sum
       });
     }
-    return transformedCart;
+    return transformedCartItems.sort((a, b) =>
+      a.productId > b.productId ? 1 : -1
+    );
   });
-  const distpach = useDispatch();
+  const dispatch = useDispatch();
+
   return (
     <View style={styles.screen}>
-      <View style={styles.Summary}>
-        <Text style={styles.SummaryText}>
-          Total : <Text style={styles.amount}>{Math.round(cartTotal.toFixed(2)) * 100 / 100}TL</Text>
+      <View style={styles.summary}>
+        <Text style={styles.summaryText}>
+          Total:{' '}
+          <Text style={styles.amount}>${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}</Text>
         </Text>
         <Button
-          title="Order now"
-          disabled={cartItem.length === 0}
-          color={Color.primary}
+          color={Colors.accent}
+          title="Order Now"
+          disabled={cartItems.length === 0}
           onPress={() => {
-            distpach(order.addOrder(cartItem,cartTotal))
+            dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
           }}
         />
       </View>
       <FlatList
-        data={cartItem}
-        keyExtractor={(item) => item.productId}
-        renderItem={(itemData) => (
+        data={cartItems}
+        keyExtractor={item => item.productId}
+        renderItem={itemData => (
           <CartItem
-            title={itemData.item.productTitle}
             quantity={itemData.item.quantity}
-            price={itemData.item.productPrice}
-            sum={itemData.item.sum}
-            delete
-            onDelete={() => {
-              distpach(cart.removeCart(itemData.item.productId));
+            title={itemData.item.productTitle}
+            amount={itemData.item.sum}
+            deletable
+            onRemove={() => {
+              dispatch(cartActions.removeFromCart(itemData.item.productId));
             }}
-          /> 
+          />
         )}
       />
     </View>
   );
 };
 
+CartScreen.navigationOptions = {
+  headerTitle: 'Your Cart'
+};
+
 const styles = StyleSheet.create({
   screen: {
-    margin: 20,
+    margin: 20
   },
-  Summary: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    shadowColor: "black",
-    shadowOpacity: 0.8,
-    shadowOffset: { width: 2, height: 4 },
-    shadowRadius: 10,
-    elevation: 30,
+  summary: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    padding: 10,
+    shadowColor: 'black',
+    shadowOpacity: 0.26,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 5,
     borderRadius: 10,
-    backgroundColor: "white",
-    padding: 20,
-    marginBottom: 10,
+    backgroundColor: 'white'
   },
-  SummaryText: {
-    fontFamily: "opan-sans-bold",
-    fontSize: 18,
+  summaryText: {
+    fontFamily: 'open-sans-bold',
+    fontSize: 18
   },
   amount: {
-    color: Color.primary,
-  },
+    color: Colors.primary
+  }
 });
 
 export default CartScreen;
