@@ -2,16 +2,14 @@ import React from "react";
 import {
   View,
   Text,
-  Button,
   Image,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import Color from "../constants/Color";
 
 const ProductItem = (props) => {
   return (
-    <TouchableOpacity onPress={props.onViewDetail} activeOpacity={0.8}>
+    <TouchableOpacity onPress={props.onSelected} activeOpacity={0.8}>
       <View style={styles.product}>
         <View style={styles.imageContainer}>
           <Image style={styles.Image} source={{ uri: props.image }} />
@@ -21,16 +19,7 @@ const ProductItem = (props) => {
           <Text style={styles.price}>{props.price}TL</Text>
         </View>
         <View style={styles.action}>
-          <Button
-            color={Color.primary}
-            title="Add Detail"
-            onPress={props.onViewDetail}
-          />
-          <Button
-            color={Color.primary}
-            title="Add to Cart"
-            onPress={props.onAddToCart}
-          />
+         {props.children}
         </View>
       </View>
     </TouchableOpacity>
