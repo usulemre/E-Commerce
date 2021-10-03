@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { LogBox } from "react-native";
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import AppLoading from "expo-app-loading";
@@ -10,6 +11,9 @@ import ShopNavigation from './navigation/ShopNavigator';
 import productsReducer from './store/reducers/products';
 import cartReducer from './store/reducers/cart';
 import ordersReducer from './store/reducers/orders';
+
+LogBox.ignoreLogs(['Remote debugger']);
+
 const rootReducer = combineReducers({
   products: productsReducer,
   cart: cartReducer,
