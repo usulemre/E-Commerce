@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useSelector, useDispatch } from "react-redux";
-
+import Input from "../../components/UI/Input";
 import HeaderButton from "../../components/UI/HeaderButton";
 import * as productsActions from "../../store/actions/products";
 
@@ -89,61 +89,58 @@ const EditProductScreen = (props) => {
     props.navigation.setParams({ submit: submitHandler });
   }, [submitHandler]);
 
-  const titleValidHandler = (inputIdentifier, text) => {
-    let isValid = false;
-    if (text.trim().length === 0) {
-      isValid = true;
-    }
+  const inputChangHandler = (inputIdentifier, inputValue,inputValidity) => {
     formDistpach({
       type: FORM_INPUT_UPDATE,
-      value: text,
-      isValid: isValid,
+      value: inputValue,
+      isValid: inputValidity,
       input: inputIdentifier,
     });
   };
   return (
     <ScrollView>
       <View style={styles.form}>
-        <View style={styles.formControl}>
-          <Text style={styles.label}>Title</Text>
-          <TextInput
-            style={styles.input}
-            value={formState.inputValues.title}
-            onChangeText={(text) => {titleValidHandler("title",text)}}
-            keyboardType="default"
-            autoCapitalize="sentences"
-            autoCorrect
+        <Input
+          label="title"
+          erorr='Please enter a valid title'
+          keyboardType="default"
+          autoCapitalize="sentences"
+          autoCorrect
+          returnKeyType="next"
+          onInputChange={inputChangHandler.bind(this,'title')}
+          initialValue={editedProduct ? editedProduct.title : ''}
+          initiallyValid={!!editedProduct}
+        />
+        <Input
+          label="imageUrl"
+          erorr='Please enter a valid imageUrl'
+          keyboardType="default"
+          autoCapitalize="sentences"
+          autoCorrect
+          returnKeyType="next"
+          initialValue={editedProduct ? editedProduct.imageUrl : ''}
+          initiallyValid={!!editedProduct}
+        />
+        {editedProduct ? null : (
+          <Input
+            label="price"
+            erorr='Please enter a valid price'
+            keyboardType='decimal-pad'
             returnKeyType="next"
           />
-        </View>
-        {!formState.inputValidities.title && <Text>Lütfen boş bırakmayınız!</Text>}
-        <View style={styles.formControl}>
-          <Text style={styles.label}>Image URL</Text>
-          <TextInput
-            style={styles.input}
-            value={formState.inputValues.imageUrl}
-            onChangeText={(text) => {titleValidHandler("imageUrl",text)}}
-          />
-        </View>
-        {editedProduct ? null : (
-          <View style={styles.formControl}>
-            <Text style={styles.label}>Price</Text>
-            <TextInput
-              style={styles.input}
-              value={formState.inputValues.price}
-              onChangeText={(text) => {titleValidHandler("price",text)}}
-              keyboardType="decimal-pad"
-            />
-          </View>
         )}
-        <View style={styles.formControl}>
-          <Text style={styles.label}>Description</Text>
-          <TextInput
-            style={styles.input}
-            value={formState.inputValues.description}
-            onChangeText={(text) => {titleValidHandler("description",text)}}
-          />
-        </View>
+        <Input
+          label="description"
+          erorr='Please enter a valid description'
+          keyboardType="default"
+          autoCapitalize="sentences"
+          autoCorrect
+          returnKeyType="next"
+          multiline
+          numberOflines={3}
+          initialValue={editedProduct ? editedProduct.description : ''}
+          initiallyValid={!!editedProduct}
+        />
       </View>
     </ScrollView>
   );
